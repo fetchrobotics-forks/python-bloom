@@ -37,6 +37,7 @@ Provides common utility functions for bloom.
 from __future__ import print_function
 
 import argparse
+import base64
 import os
 import shutil
 import socket
@@ -49,6 +50,7 @@ try:
     from urllib2 import HTTPError
     from urllib2 import URLError
     from urllib2 import urlopen
+    from urllib2 import Request
 except ImportError:
     # Python3
     from urllib.error import HTTPError
@@ -198,8 +200,6 @@ def load_url_to_file_handle(url, retry=2, retry_period=1, timeout=10):
     try:
         headers = {}
         if 'ROSDISTRO_OAUTH' in os.environ:
-            import base64
-            from urllib2 import Request
             credentials = os.environ['ROSDISTRO_OAUTH'] + ':x-oauth-basic'
             credentials = credentials.format(**vars()).encode()
             headers = {'Authorization': b'Basic ' + base64.b64encode(credentials)}
